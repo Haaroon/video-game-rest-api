@@ -1,0 +1,31 @@
+Commands.txt
+
+from videogames.models import *
+from videogames.serializers import *
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+
+genre = Genre(genre="Adventure")
+genre.save()
+
+platform = Platform(platform="3DS")
+platform.save()
+
+publisher = Publisher(publisher="Ubisoft")
+publisher.save()
+
+developer = Developer(developer="AQ Interactive")
+developer.save()
+
+rating = Rating(rating="1.0")
+rating.save()
+
+vg = VideoGame(	title="", 
+				description="",
+				brief="",
+				genres=genre,
+				platforms=platform,
+				publishers=publisher,
+				developers=developer,
+				rating=rating)
+vg.save()
