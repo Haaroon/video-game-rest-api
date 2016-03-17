@@ -17,9 +17,26 @@ from rest_framework.reverse import reverse
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 
+
 class GenreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+
+class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Platform.objects.all()
+    serializer_class = PlatformSerializer
+
+class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Publisher.objects.all()
+    serializer_class = PublisherSerializer
+
+class DeveloperViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Developer.objects.all()
+    serializer_class = DeveloperSerializer
+
+class RatingViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
 
 class VideoGameViewSet(viewsets.ModelViewSet):
     queryset = VideoGame.objects.all()

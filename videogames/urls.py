@@ -5,7 +5,23 @@ from rest_framework import routers
 from videogames.views import *
 from rest_framework import renderers
 
-genres_list = GenreViewSet.as_view({
+genre_list = GenreViewSet.as_view({
+    'get': 'list',    
+})
+
+platform_list = PlatformViewSet.as_view({
+    'get': 'list',    
+})
+
+publisher_list = PublisherViewSet.as_view({
+    'get': 'list',    
+})
+
+developer_list = DeveloperViewSet.as_view({
+    'get': 'list',    
+})
+
+rating_list = RatingViewSet.as_view({
     'get': 'list',    
 })
 
@@ -19,6 +35,7 @@ game_detail = VideoGameViewSet.as_view({
     # 'patch': 'partial_update',
     # 'delete': 'destroy'
 })
+
 user_list = UserViewSet.as_view({
     'get': 'list'
 })
@@ -27,10 +44,9 @@ user_detail = UserViewSet.as_view({
 })
 
 urlpatterns = format_suffix_patterns([
-    # url(r'^$', api_root),
-    url(r'^games/$', games),#, name="games"),
-    url(r'^game-detail/(?P<pk>[0-9]+)/$', game_detail),#, name="game-detail"),
-    url(r'^genres/$', genres_list),#, name="genres_list"),
-    url(r'^users/$', user_list),#, name="user-list"),
-    url(r'^users/(?P<pk>[0-9]+)/$', user_detail),#, name="user-detail"),
+    url(r'^genres/$', genre_list),
+    url(r'^games/$', games),
+    url(r'^game-detail/(?P<pk>[0-9]+)/$', game_detail),
+    url(r'^users/$', user_list),
+    url(r'^users/(?P<pk>[0-9]+)/$', user_detail),
 ])
