@@ -26,6 +26,7 @@ class VideoGame(models.Model):
     developers = models.ManyToManyField(Developer)
     rating = models.ForeignKey(Rating, )
     release_date = models.DateTimeField(auto_now_add=True, blank=True)
+    owner = models.ForeignKey('auth.User', related_name='videogames', blank=True)
 
     class Meta:
         ordering = ('release_date',)
