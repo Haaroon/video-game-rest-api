@@ -14,37 +14,22 @@ from rest_framework.reverse import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 
-
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'users': reverse('user-list', request=request, format=format),
-        'game-list': reverse('game-list', request=request, format=format)
-    })
-
-class GenreList(generics.ListAPIView):
+class GenreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
 
-class VideoGameList(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class VideoGameViewSet(viewsets.ModelViewSet):
     queryset = VideoGame.objects.all()
     serializer_class = VideoGameSerializer
-   
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-class VideoGameDetail(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                      IsOwnerOrReadOnly,)
-    queryset = VideoGame.objects.all()
-    serializer_class = VideoGameSerializer
-
-class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class UserDetail(generics.RetrieveAPIView):
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

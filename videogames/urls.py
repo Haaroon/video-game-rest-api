@@ -2,13 +2,35 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from videogames import views
 from rest_framework import routers
+from videogames.views import *
+from rest_framework import renderers
 
-urlpatterns = [
-    url(r'^game-list/$', views.VideoGameList.as_view(), name="game-list"),
-    url(r'^game-detail/(?P<pk>[0-9]+)/$', views.VideoGameDetail.as_view(), name="game-detail"),
-    url(r'^genres/$', views.GenreList.as_view(), name="genres"),
-    url(r'^users/$', views.UserList.as_view(), name="user-list"),
-    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view(), name="user-detail"),
-]
+genres_list = GenreViewSet.as_view({
+    'get': 'list',    
+})
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+games = VideoGameViewSet.as_view({
+    'get': 'list',
+    # 'post': 'create'
+})
+game_detail = VideoGameViewSet.as_view({
+    'get': 'retrieve',
+    # 'put': 'update',
+    # 'patch': 'partial_update',
+    # 'delete': 'destroy'
+})
+user_list = UserViewSet.as_view({
+    'get': 'list'
+})
+user_detail = UserViewSet.as_view({
+    'get': 'retrieve'
+})
+
+urlpatterns = format_suffix_patterns([
+    # url(r'^$', api_root),
+    url(r'^games/$', games),#, name="games"),
+    url(r'^game-detail/(?P<pk>[0-9]+)/$', game_detail),#, name="game-detail"),
+    url(r'^genres/$', genres_list),#, name="genres_list"),
+    url(r'^users/$', user_list),#, name="user-list"),
+    url(r'^users/(?P<pk>[0-9]+)/$', user_detail),#, name="user-detail"),
+])
