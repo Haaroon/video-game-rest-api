@@ -20,12 +20,12 @@ developer.save()
 rating = Rating(rating="1.0")
 rating.save()
 
-vg = VideoGame(	title="", 
-				description="",
-				brief="",
-				genres=genre,
-				platforms=platform,
-				publishers=publisher,
-				developers=developer,
-				rating=rating)
+vg = VideoGame.objects.create(	title="Cubic Ninja", 
+				description="puzzle adventure game",
+				brief="see desc")
+vg.genres.add(genre)
+vg.platforms.add(platform)
+vg.publishers.add(publisher)
+vg.developers.add(developer)
+vg.rating.add(rating)
 vg.save()

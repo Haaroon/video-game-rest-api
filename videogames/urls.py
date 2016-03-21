@@ -27,14 +27,15 @@ rating_list = RatingViewSet.as_view({
 
 games = VideoGameViewSet.as_view({
     'get': 'list',
-    # 'post': 'create'
+    'post': 'create'
+    'delete': 'destroy'
 })
-game_detail = VideoGameViewSet.as_view({
-    'get': 'retrieve',
-    # 'put': 'update',
-    # 'patch': 'partial_update',
-    # 'delete': 'destroy'
-})
+# game_detail = VideoGameViewSet.as_view({
+#     'get': 'retrieve',
+#     # 'put': 'update',
+#     # 'patch': 'partial_update',
+#     # 'delete': 'destroy'
+# })
 
 user_list = UserViewSet.as_view({
     'get': 'list'
@@ -46,7 +47,7 @@ user_detail = UserViewSet.as_view({
 urlpatterns = format_suffix_patterns([
     url(r'^genres/$', genre_list),
     url(r'^games/$', games),
-    url(r'^game-detail/(?P<pk>[0-9]+)/$', game_detail),
+    # url(r'^game-detail/(?P<pk>[0-9]+)/$', game_detail),
     url(r'^users/$', user_list),
     url(r'^users/(?P<pk>[0-9]+)/$', user_detail),
 ])

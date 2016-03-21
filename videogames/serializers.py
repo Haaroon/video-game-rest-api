@@ -1,14 +1,15 @@
 from rest_framework import serializers
 from videogames.models import *
 from django.contrib.auth.models import User
+from django.utils.encoding import force_text
 
 
 class UserSerializer(serializers.ModelSerializer):
-    videogames = serializers.PrimaryKeyRelatedField(many=True, queryset=VideoGame.objects.all())
+    # videogames = serializers.PrimaryKeyRelatedField(many=True, queryset=VideoGame.objects.all())
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'videogames')
+        fields = ('id', 'username') #,'videogames')
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,14 +37,16 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
-    genres = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='genrelist'
-    )
+    owner = serializers.ReadOnlyField(source = 'owner.username')
+    genres = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.all())
+    platforms = serializers.PrimaryKeyRelatedField(queryset=Platform.objects.all())
+    publishers = serializers.PrimaryKeyRelatedField(queryset=Publisher.objects.all())
+    developers = serializers.PrimaryKeyRelatedField(queryset=Developer.objects.all())
+    rating = serializers.PrimaryKeyRelatedField(queryset=Rating.objects.all())
 
     class Meta:
         model = VideoGame
-        fields = ('title', 'description', 'brief', 'genres', 'platforms', 'publishers', 'developers', 'rating', 'release_date', 'owner',)
+        fields = ('title', 'description', 'brief', 'genres', 'platforms', 'publishers',
+                     'developers', 'rating', 'release_date', 'owner', )
         depth = 2
+
