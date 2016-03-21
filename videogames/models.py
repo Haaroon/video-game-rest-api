@@ -49,7 +49,7 @@ class VideoGame(models.Model):
     def __str__(self):
         return self.title
 
-    def as_json(self):
+    def on_success(self):
         return dict(
             id=self.id, 
             title=self.title, 

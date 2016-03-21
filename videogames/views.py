@@ -67,7 +67,7 @@ class VideoGameViewSet(mixins.CreateModelMixin,
                 publishers = publisher[0],
                 rating = rating[0],
                 owner=self.request.user)
-            results = VideoGame.objects.get(title=serializer.validated_data["title"]).as_json()
+            results = VideoGame.objects.get(title=serializer.validated_data["title"]).on_success()
             # return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
             return Response(results, status=status.HTTP_201_CREATED)
         return Response({

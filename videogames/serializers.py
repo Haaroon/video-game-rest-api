@@ -38,10 +38,30 @@ class RatingSerializer(serializers.ModelSerializer):
 
 class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source = 'owner.username')
-    genres = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.all())
-    platforms = serializers.PrimaryKeyRelatedField(queryset=Platform.objects.all())
-    publishers = serializers.PrimaryKeyRelatedField(queryset=Publisher.objects.all())
-    developers = serializers.PrimaryKeyRelatedField(queryset=Developer.objects.all())
+    genres = serializers.SlugRelatedField(
+        # many=True,
+        # read_only=True,
+        slug_field='genre',
+        queryset=Genre.objects.all()
+     )
+    platforms =  serializers.SlugRelatedField(
+        # many=True,
+        # read_only=True,
+        slug_field='platform',
+        queryset=Platform.objects.all()
+     )
+    publishers = serializers.SlugRelatedField(
+        # many=True,
+        # read_only=True,
+        slug_field='publisher',
+        queryset=Publisher.objects.all()
+     )
+    developers = serializers.SlugRelatedField(
+        # many=True,
+        # read_only=True,
+        slug_field='developer',
+        queryset=Developer.objects.all()
+     )
     rating = serializers.PrimaryKeyRelatedField(queryset=Rating.objects.all())
 
     class Meta:
