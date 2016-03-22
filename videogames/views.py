@@ -22,6 +22,10 @@ class GenreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
 
+class GameGenreViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = VideoGame.objects.all()
+    serializer_class = VideoGameSerializer
+
 class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
@@ -38,6 +42,19 @@ class RatingViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
 
+class MaxPlayersViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = MaxPlayers.objects.all()
+    serializer_class = MaxPlayersSerializer
+
+class AgeRatingViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = AgeRating.objects.all()
+    serializer_class = AgeRatingSerializer
+
+
+class SpecificGameViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = VideoGame.objects.filter(genre=1)
+    serializer_class = VideoGameSerializer
+
 class VideoGameViewSet(mixins.CreateModelMixin,
                                 mixins.ListModelMixin,
                                 mixins.RetrieveModelMixin,
@@ -52,20 +69,25 @@ class VideoGameViewSet(mixins.CreateModelMixin,
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            genre = Genre.objects.get_or_create(genre=serializer.validated_data['genres'])
-            platform = Platform.objects.get_or_create(platform=serializer.validated_data['platforms'])
-            developer = Developer.objects.get_or_create(developer=serializer.validated_data['developers'])
-            publisher = Publisher.objects.get_or_create(publisher=serializer.validated_data['publishers'])
+            genre = Genre.objects.get_or_create(genre=serializer.validated_data['genre'])
+            platform = Platform.objects.get_or_create(platform=serializer.validated_data['platform'])
+            developer = Developer.objects.get_or_create(developer=serializer.validated_data['developer'])
+            publisher = Publisher.objects.get_or_create(publisher=serializer.validated_data['publisher'])
             rating = Rating.objects.get_or_create(rating=serializer.validated_data['rating'])
+            maxPlayers = MaxPlayers.objects.get_or_create(maxPlayers=serializer.validated_data['maxPlayers'])
+            ageRating = AgeRating.objects.get_or_create(ageRating=serializer.validated_data['ageRating'])
             VideoGame.objects.create(
                 title  = serializer.validated_data["title"],
                 description = serializer.validated_data["description"],
                 brief = serializer.validated_data["brief"],
-                genres = genre[0],
-                platforms = platform[0],
-                developers = developer[0], 
-                publishers = publisher[0],
+                genre = genre[0],
+                platform = platform[0],
+                developer = developer[0], 
+                publisher = publisher[0],
                 rating = rating[0],
+                maxPlayers=maxPlayers[0],
+                hasMultiplayer=serializer.validated_data["hasMultiplayer"],
+                ageRating=ageRating[0],
                 owner=self.request.user)
             results = VideoGame.objects.get(title=serializer.validated_data["title"]).on_success()
             # return Response(serializer.validated_data, status=status.HTTP_201_CREATED)

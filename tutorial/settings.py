@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'videogames.apps.VideogamesConfig',
+    'django_extensions',
 ]
 
 MIDDLEWARE_CLASSES = [
