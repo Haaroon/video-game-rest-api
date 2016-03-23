@@ -2,49 +2,49 @@ from django.db import models
 
 # Create your models here.
 class Genre(models.Model):
-    genre = models.CharField(max_length=50, unique=True)
+    genre = models.CharField(max_length=50, unique=True, primary_key=True)
 
     def __str__(self):
         return self.genre
 
 class Platform(models.Model):
-    platform = models.CharField(max_length=50, unique=True)
+    platform = models.CharField(max_length=50, unique=True, primary_key=True)
 
     def __str__(self):
         return self.platform
 
 class Publisher(models.Model):
-    publisher = models.CharField(max_length=150, unique=True)
+    publisher = models.CharField(max_length=150, unique=True, primary_key=True)
 
     def __str__(self):
         return self.publisher
 
 class Developer(models.Model):
-    developer = models.CharField(max_length=150, unique=True)
+    developer = models.CharField(max_length=150, unique=True, primary_key=True)
 
     def __str__(self):
         return self.developer
 
 class Rating(models.Model):
-    rating = models.CharField(max_length=3, unique=True)
+    rating = models.CharField(max_length=3, unique=True, primary_key=True)
 
     def __str__(self):
         return self.rating
 
 class MaxPlayers(models.Model):
-    maxPlayers = models.CharField(max_length=4, unique=True)
+    maxPlayers = models.CharField(max_length=4, unique=True, primary_key=True)
 
     def __str__(self):
         return self.maxPlayers
 
 class AgeRating(models.Model):
-    ageRating = models.CharField(max_length=3, unique=True)
+    ageRating = models.CharField(max_length=3, unique=True, primary_key=True)
 
     def __str__(self):
         return self.ageRating
 
 class VideoGame(models.Model):
-    title  = models.CharField(max_length=100, blank=False, default='-unknown-')
+    title  = models.CharField(max_length=100, blank=False, unique=True, primary_key=True)
     description = models.CharField(max_length=1000, blank=False, default='No description')
     brief = models.CharField(max_length=200, blank=False, default='No brief')
     genre = models.ForeignKey(Genre, blank=True, default=None)
@@ -84,7 +84,7 @@ class Review(models.Model):
     username = models.ForeignKey('auth.User', related_name='user', blank=True)
     game = models.ForeignKey(VideoGame, blank=True, default=None, related_name='videogame')
     rating = models.ForeignKey(Rating, default=None, blank=True, related_name='score')
-    heading = models.CharField(max_length=40, blank=False, default=" ") 
+    heading = models.CharField(max_length=40, blank=False, primary_key=True) 
     body = models.CharField(max_length=300, blank=False, default=" ")
     date_posted = models.DateTimeField(auto_now_add=True)
 

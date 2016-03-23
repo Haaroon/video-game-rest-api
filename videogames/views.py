@@ -57,48 +57,14 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(username=self.request.user)
-        
-class VideoGameViewSet(mixins.CreateModelMixin,
-                                mixins.ListModelMixin,
-                                mixins.RetrieveModelMixin,
-                                viewsets.GenericViewSet):
+
+class VideoGameViewSet(viewsets.ModelViewSet):
     queryset = VideoGame.objects.all()
     serializer_class = VideoGameSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            genre = Genre.objects.get_or_create(genre=serializer.validated_data['genre'])
-            platform = Platform.objects.get_or_create(platform=serializer.validated_data['platform'])
-            developer = Developer.objects.get_or_create(developer=serializer.validated_data['developer'])
-            publisher = Publisher.objects.get_or_create(publisher=serializer.validated_data['publisher'])
-            rating = Rating.objects.get_or_create(rating=serializer.validated_data['rating'])
-            maxPlayers = MaxPlayers.objects.get_or_create(maxPlayers=serializer.validated_data['maxPlayers'])
-            ageRating = AgeRating.objects.get_or_create(ageRating=serializer.validated_data['ageRating'])
-            VideoGame.objects.create(
-                title  = serializer.validated_data["title"],
-                description = serializer.validated_data["description"],
-                brief = serializer.validated_data["brief"],
-                genre = genre[0],
-                platform = platform[0],
-                developer = developer[0], 
-                publisher = publisher[0],
-                rating = rating[0],
-                maxPlayers=maxPlayers[0],
-                hasMultiplayer=serializer.validated_data["hasMultiplayer"],
-                ageRating=ageRating[0],
-                owner=self.request.user)
-            results = VideoGame.objects.get(title=serializer.validated_data["title"]).on_success()
-            # return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
-            return Response(results, status=status.HTTP_201_CREATED)
-        return Response({
-            'status': 'Bad request',
-            'message': 'Video Game could not be created with received data.'
-        }, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         print("In get query set, query params is : ", self.request.query_params)

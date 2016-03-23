@@ -49,55 +49,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         exclude = ['username']
 
-class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source = 'owner.username')
-    genre = serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='genre',
-        queryset=Genre.objects.all()
-     )
-    platform =  serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='platform',
-        queryset=Platform.objects.all()
-     )
-    publisher = serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='publisher',
-        queryset=Publisher.objects.all()
-     )
-    developer = serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='developer',
-        queryset=Developer.objects.all()
-     )
-    rating = serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='rating',
-        queryset=Rating.objects.all()
-     )
-    ageRating = serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='ageRating',
-        queryset=AgeRating.objects.all()
-     )
-    maxPlayers = serializers.SlugRelatedField(
-        # many=True,
-        # read_only=True,
-        slug_field='maxPlayers',
-        queryset=MaxPlayers.objects.all()
-     )
-
+class VideoGameSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoGame
-        fields = ('id', 'title', 'description', 'brief', 'genre',
-                   'platform', 'publisher', 'developer', 'rating', 
-                   'ageRating', 'maxPlayers', 'hasMultiplayer', 'owner', )
-        depth = 2
-
+        exclude = ['owner']
