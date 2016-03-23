@@ -44,6 +44,11 @@ class AgeRatingSerializer(serializers.ModelSerializer):
         model = AgeRating
         fields = '__all__'
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        exclude = ['username']
+
 class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source = 'owner.username')
     genre = serializers.SlugRelatedField(

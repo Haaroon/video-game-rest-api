@@ -6,6 +6,7 @@ from videogames import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
+router.register(r'review', views.ReviewViewSet)
 router.register(r'videogames', views.VideoGameViewSet)
 router.register(r'genres', views.GenreViewSet)
 router.register(r'platform', views.PlatformViewSet)

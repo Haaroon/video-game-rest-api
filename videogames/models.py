@@ -79,3 +79,14 @@ class VideoGame(models.Model):
             ageRating=self.ageRating.__str__(),
             owner=self.owner.username,
             )
+
+class Review(models.Model):
+    username = models.ForeignKey('auth.User', related_name='user', blank=True)
+    game = models.ForeignKey(VideoGame, blank=True, default=None, related_name='videogame')
+    rating = models.ForeignKey(Rating, default=None, blank=True, related_name='score')
+    heading = models.CharField(max_length=40, blank=False, default=" ") 
+    body = models.CharField(max_length=300, blank=False, default=" ")
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.heading
