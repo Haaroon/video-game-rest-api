@@ -91,7 +91,7 @@ class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = VideoGame
-        fields = ('title', 'description', 'brief', 'genre',
+        fields = ('id', 'title', 'description', 'brief', 'genre',
                    'platform', 'publisher', 'developer', 'rating', 
                    'ageRating', 'maxPlayers', 'hasMultiplayer', 'owner', )
         depth = 2
