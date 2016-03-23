@@ -50,11 +50,6 @@ class AgeRatingViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = AgeRating.objects.all()
     serializer_class = AgeRatingSerializer
 
-
-class SpecificGameViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = VideoGame.objects.filter(genre=1)
-    serializer_class = VideoGameSerializer
-
 class VideoGameViewSet(mixins.CreateModelMixin,
                                 mixins.ListModelMixin,
                                 mixins.RetrieveModelMixin,
@@ -96,6 +91,40 @@ class VideoGameViewSet(mixins.CreateModelMixin,
             'status': 'Bad request',
             'message': 'Video Game could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        print("In get query set, query params is : ", self.request.query_params)
+        queryset = VideoGame.objects.all()
+        searchGenre = self.request.query_params.get('genre', None)
+        searchDeveloper = self.request.query_params.get('developer', None)
+        searchPublisher = self.request.query_params.get('publisher', None)
+        searchPlatform = self.request.query_params.get('platform', None)
+        searchRating = self.request.query_params.get('rating', None)
+        searchMaxPlayers = self.request.query_params.get('maxPlayers', None)
+        searchHasMultiplayer = self.request.query_params.get('hasMultiplayer', None)
+        searchAgeRating = self.request.query_params.get('ageRating', None)
+        searchOwner = self.request.query_params.get('owner', None)
+
+        if searchGenre is not None:
+            queryset = queryset.filter(genre=searchGenre)
+        if searchDeveloper is not None:
+            queryset = queryset.filter(developer=searchDeveloper)
+        if searchPublisher is not None:
+            queryset = queryset.filter(publisher=searchPublisher)
+        if searchPlatform is not None:
+            queryset = queryset.filter(platform=searchPlatform)
+        if searchRating is not None:
+            queryset = queryset.filter(rating=searchRating)
+        if searchMaxPlayers is not None:
+            queryset = queryset.filter(maxPlayers=searchMaxPlayers)
+        if searchHasMultiplayer is not None:
+            queryset = queryset.filter(hasMultiplayer=searchHasMultiplayer)
+        if searchAgeRating is not None:
+            queryset = queryset.filter(ageRating=searchAgeRating)
+        if searchOwner is not None:
+                queryset = queryset.filter(owner=searchOwner)
+            
+        return queryset
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
