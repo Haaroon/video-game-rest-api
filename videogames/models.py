@@ -1,4 +1,8 @@
 from django.db import models
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 # Create your models here.
 class Genre(models.Model):
@@ -8,19 +12,41 @@ class Genre(models.Model):
         return self.genre
 
 class Platform(models.Model):
+    CONSOLE_CHOICES = (
+        (1, 'Console'),
+        (2, 'Handheld'),
+        (3, 'Mobile'),
+        (4, 'PC'),
+    )
     platform = models.CharField(max_length=50, unique=True, primary_key=True)
+    manufactorer = models.CharField(max_length=50, default="Unknown")
+    consoleType = models.IntegerField(choices=CONSOLE_CHOICES, default=1)
 
     def __str__(self):
         return self.platform
 
 class Publisher(models.Model):
+    MARKET_CHOICES = (
+        (1, 'Worldwide'),
+        (2, 'Regional'),
+        (3, 'Country'),
+    )
     publisher = models.CharField(max_length=150, unique=True, primary_key=True)
-
+    headquarters = models.CharField(max_length=100)
+    market = models.IntegerField(choices=MARKET_CHOICES, default=1)
     def __str__(self):
         return self.publisher
 
 class Developer(models.Model):
+    MARKET_CHOICES = (
+        (1, 'Worldwide'),
+        (2, 'Regional'),
+        (3, 'Country'),
+    )
     developer = models.CharField(max_length=150, unique=True, primary_key=True)
+    headquarters = models.CharField(max_length=100)
+    market = models.IntegerField(choices=MARKET_CHOICES, default=1)
+
 
     def __str__(self):
         return self.developer
@@ -90,3 +116,8 @@ class Review(models.Model):
 
     def __str__(self):
         return self.heading
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)

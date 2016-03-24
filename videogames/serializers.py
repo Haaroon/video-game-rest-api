@@ -14,20 +14,20 @@ class GenreSerializer(serializers.ModelSerializer):
         model = Genre
         fields = '__all__'
 
-class PlatformSerializer(serializers.ModelSerializer):
+class PlatformSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Platform
-        fields = '__all__'
+        fields = [ 'platform', 'manufactorer', 'consoleType', 'url']
 
-class PublisherSerializer(serializers.ModelSerializer):
+class PublisherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Publisher
-        fields = '__all__'
+        fields = [ 'publisher', 'headquarters', 'market', 'url']
 
-class DeveloperSerializer(serializers.ModelSerializer):
+class DeveloperSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Developer
-        fields = '__all__'
+        fields = [ 'developer', 'headquarters', 'market', 'url']
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,6 +50,12 @@ class ReviewSerializer(serializers.ModelSerializer):
         exclude = ['username']
 
 class VideoGameSerializer(serializers.ModelSerializer):
+    platform = PlatformSerializer()
+    publisher = PublisherSerializer()
+    developer =  DeveloperSerializer()
     class Meta:
         model = VideoGame
-        exclude = ['owner']
+        fields = [ "title", "description", "brief", "hasMultiplayer",
+                    "genre", "platform", "publisher", "developer", "rating",
+                    "maxPlayers", "ageRating" ]
+        # exclude = ['owner']

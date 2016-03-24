@@ -65,7 +65,7 @@ class VideoGameViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
+ 
     def get_queryset(self):
         print("In get query set, query params is : ", self.request.query_params)
         queryset = VideoGame.objects.all()
