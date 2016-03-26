@@ -18,17 +18,20 @@ from rest_framework import viewsets
 from rest_framework.decorators import detail_route, list_route
 import json
 
-class GenreViewSet(viewsets.ReadOnlyModelViewSet):
+class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
-class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
+class PlatformViewSet(viewsets.ModelViewSet):
     queryset = Platform.objects.all()
     serializer_class = PlatformSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
-class DeveloperViewSet(viewsets.ReadOnlyModelViewSet):
+class DeveloperViewSet(viewsets.ModelViewSet):
     queryset = Developer.objects.all()
     serializer_class = DeveloperSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly,)
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
