@@ -51,12 +51,6 @@ class DeveloperLimitSerializer(serializers.HyperlinkedModelSerializer):
         model = Developer
         fields = [ 'developer', 'url']
 
-# Serializer that displayus infrmation about reviews
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        exclude = ['username']
-
 # Serializer that shows all video games
 class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
     platform = PlatformLimitSerializer(read_only=False)
@@ -66,8 +60,7 @@ class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = VideoGame
         fields = [ "title", "description", "brief",
-                    "genre", "platform", "developer", 
-                    "rating"]
+                    "genre", "platform", "developer" ]
 
     def create(self, validated_data):
         print(validated_data.get("owner"))
@@ -78,7 +71,33 @@ class VideoGameSerializer(serializers.HyperlinkedModelSerializer):
                 genre=validated_data.get("genre")['genre'],
                 platform=validated_data.get("platform")['platform'],
                 developer=validated_data.get("developer")['developer'],
-                rating=validated_data.get("rating"),
                 owner=validated_data.get("owner"),
         )
         return game_data
+
+class VideoGameLimitSerializer(serializers.HyperlinkedModelSerializer):
+    title = serializers.PrimaryKeyRelatedField(queryset=VideoGame.objects.all())
+
+    class Meta:
+        model = VideoGame
+        fields = [ "title", "url" ]
+
+# Serializer that displayus infrmation about reviews
+class ReviewSerializer(serializers.ModelSerializer):
+    game = VideoGameLimitSerializer()
+    username = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = [ "heading", "body", "rating", "game", "username"]
+
+    def create(self, validated_data):
+        print(self)
+        new_review = Review.objects.create(
+                heading=validated_data.get("heading"),
+                body=validated_data.get("body"),
+                rating=validated_data.get("rating"),
+                username=validated_data.get("username"),
+                game=validated_data.get("game")['title'],
+        )
+        return new_review
