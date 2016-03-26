@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'videogames.apps.VideogamesConfig',
-    'django_extensions',
-    'rest_framework.authtoken'
+    # 'django_extensions',
+    'rest_framework.authtoken',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -145,6 +146,6 @@ REST_FRAMEWORK = {
         'rest_framework_xml.renderers.XMLRenderer',
         'rest_framework_yaml.renderers.YAMLRenderer',
         'rest_framework_jsonp.renderers.JSONPRenderer',
-        'rest_framework_csv.renderers.CSVRenderer',
+        'rest_framework_csv.renderers.CSVRenderer', 
     )
 }
