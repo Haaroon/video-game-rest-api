@@ -1,0 +1,23 @@
+{% extends "rest_framework/base.html" %}
+{% load staticfiles %}
+{% block bootstrap_theme %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+{% endblock %}
+{% block bootstrap_navbar_variant %}
+{% endblock %}
+
+{% block branding %}
+      <a class='navbar-brand' rel="nofollow" href='/'>
+          Video Games and Reviews
+      </a>
+      <ul class="nav navbar-nav">
+      <li><a href="/">Api Root</a></li>
+      <li><a href="/users">Users</a></li>
+      <li><a href="/review">Review</a></li>
+      <li><a href="/videogames">Video Games</a></li>
+      <li><a href="/genres">Genres</a></li>
+      <li><a href="/platform">Platform</a></li>
+      <li><a href="/developer">Developer</a></li>
+      <li><a href="/docs">Documentation</a></li>
+  </ul>
+{% endblock %}
