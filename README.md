@@ -1,30 +1,35 @@
 README.md
 
----------------
-Obtaining a token
----------------
-curl --data "username=haaroony&password=password123" http://127.0.0.1:8000/api-token-auth/
+------------
+Registration 
+------------
 
-
----------------
-Calling a GET requires the following call, no authentication token is specified
----------------
-curl -X GET http://127.0.0.1:8000/review/ -H ''
-curl -X GET http://127.0.0.1:8001/ 
+Login 	 : haaroony	
+Password : password123 
 
 ---------------
-Posting information
+Obtaining an authorization token
 ---------------
-Authorization: Token 19b1be0667189f0efd2d07b444d9c205ce444c09; 
+curl --data "username=haaroony&password=password123" http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/api-token-auth/
 
+---------------
+Calling a GET requires the following call, 
+no authentication token is required
+---------------
+curl -X GET http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/users/ -H ''
+curl -X GET http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/review/ -H ''
+curl -X GET http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/videogames/ -H ''
+curl -X GET http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/genres/ -H ''
+curl -X GET http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/platform/ -H ''
+curl -X GET http://videogames-haaroony.apps.devcloud.eecs.qmul.ac.uk/developer/ -H ''
 
-curl -X POST http://127.0.0.1:8000/review/ -H "Authorization:Token 19b1be0667189f0efd2d07b444d9c205ce444c09" -H "Content-Type: application/json;" -d '
-{
-    "heading": "example",
-    "body": "example2",
-    "game": "Cubic Ninja",
-    "rating": "0.5"
-}' 
+---------------
+Calling a POST requets requires an authorization token
+---------------
+e.g. posting a review
+
+curl -H "Authorization:Token fa3893f7bda91ae3dff7dbd4acfae4ed9f1a18d2" -H "Content-Type:son" -X POST -d '{"heading":"test","body":"test","game":{"title":"Cubic Ninja"},"rating":"2"}' http://127.0.0.1:8000/review/
+
 
 Different renderes installed
 XML renderer  - 	pip install djangorestframework-xml
