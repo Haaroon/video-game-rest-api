@@ -44,12 +44,9 @@ class VideoGame(models.Model):
     brief = models.CharField(max_length=200, blank=False, default='No brief')
     description = models.CharField(max_length=1000, blank=False, default='No description')
     owner = models.ForeignKey('auth.User', related_name='videogames', blank=True)
-    genre = models.ForeignKey(Genre)
-    platform = models.ForeignKey(Platform)
+    genre = models.ManyToManyField(Genre)
+    platform = models.ManyToManyField(Platform)
     developer = models.ForeignKey(Developer)
-
-    class Meta:
-        ordering = ('title',)
 
     def __str__(self):
         return self.title
@@ -61,8 +58,8 @@ class VideoGame(models.Model):
             brief=self.brief,
             description=self.description,
             owner=self.owner.username,
-            genre=self.genre.__str__(),
-            platform=self.platform.__str__(),
+            # genre=self.genre.__str__(),
+            # platform=self.platform.__str__(),
             developer=self.developer.__str__(),
             )
 
@@ -80,7 +77,7 @@ class Review(models.Model):
     heading = models.CharField(max_length=40, blank=False, primary_key=True) 
     body = models.CharField(max_length=300, blank=False, default=" ")
     date_posted = models.DateTimeField(auto_now_add=True)
-    game = models.ForeignKey(VideoGame, related_name='games', blank=False)
+    videogame = models.ForeignKey(VideoGame, related_name="videogame_review", default='1')
 
     def __str__(self):
         return self.heading
