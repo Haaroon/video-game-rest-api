@@ -16,7 +16,7 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # Serailzier for to show all data when linked is pressed
-class PlatformSerializer(serializers.ModelSerializer):
+class PlatformSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Platform
         fields = '__all__'
@@ -35,7 +35,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [ "heading", "body", "rating", "videogame", "username"]
-        # extra_kwargs = {'url': {'view_name': 'review-detail'}} 
+
     # def create(self, validated_data):
     #     print(self)
     #     new_review = Review.objects.create(
@@ -49,48 +49,24 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 # Serializer that shows all video games
 class VideoGameSerializer(serializers.ModelSerializer):
-    platform =  serializers.HyperlinkedRelatedField(
-        many=True,
-        queryset=Platform.objects.all(),
-        view_name='platform-detail'
-    )
-
     genre = serializers.HyperlinkedRelatedField(
         many=True,
         queryset=Genre.objects.all(),
         view_name='genre-detail'
     )
 
-    developer =  serializers.HyperlinkedRelatedField(
-        many=False,
-        queryset=Developer.objects.all(),
-        view_name='developer-detail'
-    )
+    platform = PlatformSerializer()
 
     videogame_review = serializers.HyperlinkedRelatedField(
         many=True, 
         view_name="review-detail", 
         read_only=True
     )
-    
+
     class Meta:
         model = VideoGame
-        # fields = "__all__"
         fields = [ "url", "title", "description", "brief",
-                   "genre", "platform", "developer", "videogame_review" ]
-
-    # def create(self, validated_data):
-    #     print(validated_data.get("owner"))
-    #     game_data = VideoGame.objects.create(
-    #             title=validated_data.get("title"),
-    #             description=validated_data.get("description"),
-    #             brief=validated_data.get("brief"),
-    #             # genre=validated_data.get("genre")['genre'],
-    #             platform=validated_data.get("platform")['platform'],
-    #             developer=validated_data.get("developer")['developer'],
-    #             owner=validated_data.get("owner"),
-    #     )
-    #     return game_data
+                   "genre", "platform", "developer", "videogame_review"  ]
 
 class VideoGameLimitSerializer(serializers.HyperlinkedModelSerializer):
     title = serializers.PrimaryKeyRelatedField(queryset=VideoGame.objects.all())

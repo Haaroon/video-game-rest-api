@@ -45,7 +45,7 @@ class VideoGame(models.Model):
     description = models.CharField(max_length=1000, blank=False, default='No description')
     owner = models.ForeignKey('auth.User', related_name='videogames', blank=True)
     genre = models.ManyToManyField(Genre)
-    platform = models.ManyToManyField(Platform)
+    platform = models.ForeignKey(Platform)
     developer = models.ForeignKey(Developer)
 
     def __str__(self):

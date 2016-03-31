@@ -89,7 +89,7 @@ class VideoGameViewSet(viewsets.ModelViewSet):
         if searchRating is not None:
             queryset = queryset.filter(rating=searchRating)
         if searchOwner is not None:
-                queryset = queryset.filter(owner=searchOwner)
+            queryset = queryset.filter(owner=searchOwner)
             
         return queryset
 

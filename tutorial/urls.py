@@ -7,8 +7,8 @@ from rest_framework.authtoken import views as authviews
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
-router.register(r'review', views.ReviewViewSet)
 router.register(r'videogames', views.VideoGameViewSet)
+router.register(r'review', views.ReviewViewSet)
 router.register(r'genres', views.GenreViewSet)
 router.register(r'platform', views.PlatformViewSet)
 router.register(r'developer', views.DeveloperViewSet)
