@@ -27,9 +27,16 @@ class DeveloperSerializer(serializers.ModelSerializer):
         model = Developer
         fields = '__all__'
 
+class VideoGameLimitSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = VideoGame
+        fields = ['url', 'title']
+
+
 # Serializer that displayus infrmation about reviews
 class ReviewSerializer(serializers.ModelSerializer):
-    # game = VideoGameLimitSerializer()
+    videogame = VideoGameLimitSerializer()
     username = UserSerializer(read_only=True)
 
     class Meta:
