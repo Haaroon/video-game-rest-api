@@ -27,6 +27,26 @@ class DeveloperSerializer(serializers.ModelSerializer):
         model = Developer
         fields = '__all__'
 
+# Serializer that displayus infrmation about reviews
+class ReviewSerializer(serializers.ModelSerializer):
+    # game = VideoGameLimitSerializer()
+    username = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = [ "heading", "body", "rating", "videogame", "username"]
+        # extra_kwargs = {'url': {'view_name': 'review-detail'}} 
+    # def create(self, validated_data):
+    #     print(self)
+    #     new_review = Review.objects.create(
+    #             heading=validated_data.get("heading"),
+    #             body=validated_data.get("body"),
+    #             rating=validated_data.get("rating"),
+    #             username=validated_data.get("username"),
+    #             # game=validated_data.get("game")['title'],
+    #     )
+    #     return new_review
+
 # Serializer that shows all video games
 class VideoGameSerializer(serializers.ModelSerializer):
     platform =  serializers.HyperlinkedRelatedField(
@@ -47,7 +67,11 @@ class VideoGameSerializer(serializers.ModelSerializer):
         view_name='developer-detail'
     )
 
-    videogame_review = serializers.HyperlinkedRelatedField(many=True, view_name="review-detail", read_only=True)
+    videogame_review = serializers.HyperlinkedRelatedField(
+        many=True, 
+        view_name="review-detail", 
+        read_only=True
+    )
     
     class Meta:
         model = VideoGame
@@ -74,23 +98,3 @@ class VideoGameLimitSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = VideoGame
         fields = [ "title", "url" ]
-
-# Serializer that displayus infrmation about reviews
-class ReviewSerializer(serializers.ModelSerializer):
-    # game = VideoGameLimitSerializer()
-    username = UserSerializer(read_only=True)
-
-    class Meta:
-        model = Review
-        fields = [ "heading", "body", "rating", "videogame", "username"]
-
-    # def create(self, validated_data):
-    #     print(self)
-    #     new_review = Review.objects.create(
-    #             heading=validated_data.get("heading"),
-    #             body=validated_data.get("body"),
-    #             rating=validated_data.get("rating"),
-    #             username=validated_data.get("username"),
-    #             # game=validated_data.get("game")['title'],
-    #     )
-    #     return new_review
