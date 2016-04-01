@@ -2,9 +2,6 @@ from rest_framework import serializers
 from videogames.models import *
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
-from rest_framework_extensions.fields import ResourceUriField
-from rest_framework.reverse import reverse
-from rest_framework import pagination
 
 # Serializer to only show user data
 class UserSerializer(serializers.ModelSerializer):
@@ -51,7 +48,7 @@ class VideoGameLimitSerializer(serializers.HyperlinkedModelSerializer):
 
 # Serializer that displayus infrmation about reviews
 class ReviewSerializer(serializers.ModelSerializer):
-    videogame = VideoGameLimitSerializer()
+   
     username = UserSerializer(read_only=True)
     # links = serializers.SerializerMethodField()
 
@@ -74,7 +71,11 @@ class VideoGameSerializer(serializers.ModelSerializer):
         view_name='genre-detail'
     )
 
-    platform = PlatformSerializer()
+    platform = serializers.HyperlinkedRelatedField(
+        many=False,
+        queryset=Platform.objects.all(),
+        view_name='platform-detail'
+    )
 
     videogame_review = serializers.HyperlinkedRelatedField(
         many=True, 
