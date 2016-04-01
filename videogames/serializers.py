@@ -41,7 +41,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = [ "heading", "body", "rating", "videogame", "username"]
+        fields = [ "heading", "body", "rating", "videogame", "username" ]
 
     # def create(self, validated_data):
     #     print(self)
