@@ -141,6 +141,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
+    # 'DEFAULT_PAGINATION_CLASS': 'videogames.pagination.CustomPagination',
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'PAGE_SIZE': 10,
     # 'DEFAULT_PARSER_CLASSES': (
